@@ -1,7 +1,28 @@
+import matplotlib.pyplot as plt
 import random
 
+# Plotting variables
+colour_list = ["r-", "m-", "y-", "c-", "b-", "g-"]
+colour_index = 0
+
 def show_learning(w):
+    global colour_index
     print("w0 = {:5.2f}, w1 = {:5.2f}, w2 = {:5.2f}".format(w[0], w[1], w[2]))
+
+    if colour_index == 0:
+        plt.plot([1.0], [1.0], 'b_', markersize=12)
+        plt.plot([-1.0, 1.0, -1.0], [1.0, -1.0, -1.0], 'r+', markersize=12)
+        plt.axis([-2, 2, -2, 2])
+        plt.xlabel('x1')
+        plt.ylabel('x2')
+    x = [-2.0, 2.0]
+    if abs(w[2]) < 1e-5:
+        y = [-w[1]/(1e-5)*(-2.0)+(-w[0]/(1e-5)), -w[1]/(1e-5)*(2.0)+(-w[0]/(1e-5))]
+    else:
+        y = [-w[1]/w[2]*(-2.0)+(-w[0]/w[2]), -w[1]/w[2]*(2.0)+(-w[0]/w[2])]
+    plt.plot(x, y, colour_list[colour_index])
+    if colour_index < (len(colour_list) - 1):
+        colour_index += 1
 
 # The bias must always be set to 1.
 # x & w must have the same length
@@ -40,3 +61,5 @@ while not learning_complete:
                 w[j] += (y * LEARNING_RATE * x[j])  # Note: y is either 1.0 or -1.0, so will adjust this to add/subtrac as required without an extra if statement
             learning_complete = False
             show_learning(w)
+
+plt.show()
