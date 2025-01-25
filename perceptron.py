@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import random
 
 # Plotting variables
@@ -35,6 +36,11 @@ def compute_output(w, x):
     else:
         return 1
 
+# This time with numpy
+def compute_output_vector(w, x):
+    z = np.dot(w, x)
+    return np.sign(z)
+
 random.seed(7) # Keep things repeatable
 LEARNING_RATE = 0.1
 index_list = [0, 1, 2, 3]
@@ -54,7 +60,7 @@ while not learning_complete:
     for i in index_list:
         x = x_train[i]
         y = y_train[i]
-        y_actual = compute_output(w, x)
+        y_actual = compute_output_vector(w, x)
 
         if y != y_actual:
             for j in range(0, len(w)):
